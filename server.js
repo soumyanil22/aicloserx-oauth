@@ -27,7 +27,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://aicloserx-oauth.onrender.com/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       let user = await User.findOne({ googleId: profile.id });
@@ -69,7 +69,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication
-    res.redirect("http://127.0.0.1:5501/index.html");
+    res.redirect("https://www.aicloserx.com/");
   }
 );
 
