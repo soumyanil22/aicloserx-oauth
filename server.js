@@ -29,7 +29,6 @@ app.use(
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
       sameSite: "none",
       secure: true,
-      domain: ".onrender.com",
     },
   })
 );
@@ -117,14 +116,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "https://www.aicloserx.com/",
-  }),
-  (req, res) => {
-    // Successful authentication
-    console.log("Session after auth:", req.session);
-    console.log("User after auth:", req.user);
-    console.log("Cookies:", req.cookies);
-    res.redirect("https://www.aicloserx.com/chatbot.html");
-  }
+    successRedirect: "https://www.aicloserx.com/chatbot.html",
+  })
 );
 
 // Profile route - Protected route
