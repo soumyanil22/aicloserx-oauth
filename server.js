@@ -29,6 +29,7 @@ app.use(
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
       sameSite: 'lax',
       secure: true,
+      domain: '.aicloserx.com',
     },
   })
 );
@@ -58,7 +59,7 @@ passport.use(
         });
         await user.save();
       }
-      return done(null, profile);
+      return done(null, user);
     }
   )
 );
