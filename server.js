@@ -10,6 +10,9 @@ require("dotenv").config();
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+
 // Configure session middleware
 app.use(
   session({
@@ -53,25 +56,27 @@ passport.use(
 );
 
 passport.use(
-  new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
-    try {
-      const user = await User.findOne({ email });
-      if (!user) {
-        return done(null, false, { message: "Incorrect email or password" });
-      }
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (email, password, done) => {
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          return done(null, false, { message: "Incorrect email or password" });
+        }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return done(null, false, { message: "Incorrect email or password" });
-      }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return done(null, false, { message: "Incorrect email or password" });
+        }
 
-      return done(null, user);
-    } catch (err) {
-      return done(err);
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
     }
-  })
+  )
 );
-
 
 // Serialize and deserialize user to manage sessions
 passport.serializeUser((user, done) => {
@@ -101,19 +106,21 @@ app.get(
 // Google OAuth callback route
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "https://www.aicloserx.com/" }),
+  passport.authenticate("google", {
+    failureRedirect: "https://www.aicloserx.com/",
+  }),
   (req, res) => {
     // Successful authentication
-    res.redirect("https://www.aicloserx.com/");
+    res.redirect("https://aicloserx.com/chatbot.html");
   }
 );
 
 // Profile route - Protected route
 app.get("/profile", (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.redirect("/login");
+    return res.status(401).json({ message: "Unauthorized" });
   }
-  res.send(`<h1>Profile</h1><p>Welcome, ${req.user.displayName}</p>`);
+  res.status(200).json(req.user);
 });
 
 app.post("/register", async (req, res) => {
@@ -130,20 +137,27 @@ app.post("/register", async (req, res) => {
 
     req.login(newUser, (err) => {
       if (err) {
-        return res.status(500).json({ message: "Error logging in after registration" });
+        return res
+          .status(500)
+          .json({ message: "Error logging in after registration" });
       }
-      return res.status(201).json({ message: "User registered and logged in successfully" });
+      return res
+        .status(201)
+        .json({ message: "User registered and logged in successfully" });
     });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
 
-app.post("/login", passport.authenticate("local", {
-  successRedirect: "https://www.aicloserx.com/",
-  failureRedirect: "https://www.aicloserx.com/signup",
-  failureFlash: true
-}));
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "https://aicloserx.com/chatbot.html",
+    failureRedirect: "https://www.aicloserx.com/signup",
+    failureFlash: true,
+  })
+);
 
 // Logout route
 app.get("/logout", (req, res) => {

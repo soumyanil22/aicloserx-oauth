@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       select: false,
     },
+    isSubscribed: { 
+      type: Boolean, 
+      default: false 
+    },
+    chatStartTime: { type: Date },
   },
   {
     timestamps: true,
