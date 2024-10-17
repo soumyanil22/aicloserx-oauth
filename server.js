@@ -119,7 +119,7 @@ app.get(
   }),
   (req, res) => {
     // Successful authentication
-    res.redirect("https://aicloserx.com/chatbot.html");
+    res.redirect("https://www.aicloserx.com/chatbot.html");
   }
 );
 
@@ -161,7 +161,7 @@ app.post("/register", async (req, res) => {
 app.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "https://aicloserx.com/chatbot.html",
+    successRedirect: "https://www.aicloserx.com/chatbot.html",
     failureRedirect: "https://www.aicloserx.com/signup",
     failureFlash: true,
   })
