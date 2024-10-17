@@ -26,9 +26,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      path: '/',
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
       sameSite: "none",
       secure: true,
+      domain: 'aicloserx.com',
     },
   })
 );
