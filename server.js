@@ -6,6 +6,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const User = require("./models/UserModel");
 const db = require("./configs/db");
+const cors = require('cors');
 require("dotenv").config();
 
 const app = express();
