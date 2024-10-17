@@ -27,7 +27,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
-      sameSite: 'lax',
+      sameSite: 'none',
       secure: true,
       domain: '.aicloserx.com',
     },
@@ -89,7 +89,6 @@ passport.use(
 
 // Serialize and deserialize user to manage sessions
 passport.serializeUser((user, done) => {
-  console.log("serializeUser => ", user);
   done(null, user._id);
 });
 
