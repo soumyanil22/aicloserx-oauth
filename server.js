@@ -11,7 +11,12 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors({ origin: 'https://www.aicloserx.com' }));
+const corsOptions = {
+  origin: ['https://aicloserx.com', 'https://www.aicloserx.com'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Configure session middleware
