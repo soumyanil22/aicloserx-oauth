@@ -6,13 +6,13 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const User = require("./models/UserModel");
 const db = require("./configs/db");
-const cors = require('cors');
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
 const corsOptions = {
-  origin: ['https://aicloserx.com', 'https://www.aicloserx.com'],
+  origin: ["https://aicloserx.com", "https://www.aicloserx.com"],
   credentials: true,
 };
 
@@ -27,9 +27,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
-      sameSite: 'none',
+      sameSite: "none",
       secure: true,
-      domain: '.aicloserx.com',
+      domain: ".onrender.com",
     },
   })
 );
@@ -120,16 +120,16 @@ app.get(
   }),
   (req, res) => {
     // Successful authentication
-    console.log('Session after auth:', req.session);
-    console.log('User after auth:', req.user);
-    console.log('Cookies:', req.cookies);
+    console.log("Session after auth:", req.session);
+    console.log("User after auth:", req.user);
+    console.log("Cookies:", req.cookies);
     res.redirect("https://www.aicloserx.com/chatbot.html");
   }
 );
 
 // Profile route - Protected route
 app.get("/profile", (req, res) => {
-  console.log("user => ",req.user);
+  console.log("user => ", req.user);
   console.log("isAuthenticated => ", req.isAuthenticated());
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: "Unauthorized" });
