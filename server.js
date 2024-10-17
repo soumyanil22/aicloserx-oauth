@@ -126,6 +126,8 @@ app.get(
 
 // Profile route - Protected route
 app.get("/profile", (req, res) => {
+  console.log("user => ",req.user);
+  console.log("isAuthenticated => ", req.isAuthenticated());
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: "Unauthorized" });
   }
