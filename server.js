@@ -19,10 +19,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Initialize 1
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Configure session middleware
 app.use(
   session({
@@ -30,14 +26,18 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      path: "/",
+      path: '/',
       maxAge: 1000 * 60 * 30, // 30 minutes in milliseconds
       sameSite: "none",
       secure: true,
-      domain: "aicloserx.com",
+      domain: 'aicloserx.com',
     },
   })
 );
+
+// Initialize 1
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configure Passport with Google OAuth strategy
 passport.use(
